@@ -1,0 +1,56 @@
+---
+title: "Tableau"
+author: "Dr.Kubrom Teka"
+output: html_document
+---
+
+1. Getting Started
+
+```{r}
+# This will install and initiate a local instance of Rserve() that Tableau will connect to.
+#install.packages("Rserve")
+library(Rserve)
+Rserve() 
+```
+
+To connect to the Rserve instance, navigate to the External Service Connection window in Tableau:
+
+    Help -> Settings and Performance -> Manage Analytics Extensions Connection
+  
+If connecting to a local instance of Rserve, the external service connection setting should be set to the following:
+
+      Server: localhost
+      Port: 6311 (unless specified otherwise) 
+
+
+Tableau is now configured to run R scripts.
+
+N.B. you will have to initiate an Rserve connection and run through the external service connection each time you reopen Tableau.
+
+
+2. Tableau's R Functions
+
+To call R in Tableau, you can use 1 of 4 functions:
+
+    script_real: if the values to be returned are numeric
+    script_boolean: if the values to be returned are True/False
+    script_int: if the values to be returned are integers
+    script_str: if the values to be returned are strings
+
+The functions take the form:
+
+    script_*(" insert r code here", arg1, arg2) 
+
+More often than not, you will have to create a data frame inside your script
+
+Most R functions will ask you to provide a data frame, but there is no way to refer to the data source in your Tableau environment. You can only pass columns from your Tableau Datasource to R. Consequently, you often have to create a data frame using all of your arguments:
+
+    df <- data.frame(.arg1, .arg2)
+
+Warning:
+
+Tableau can only return a boolean, integer, real, or string.You may run into problems if you are trying to return a factor into Tableau. 
+Make sure to cast them into a character type.
+
+
+
